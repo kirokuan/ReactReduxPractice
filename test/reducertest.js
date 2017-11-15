@@ -20,4 +20,9 @@ describe('main reducer', () => {
         const st=main({ },{type:VIEW_SUCCESS,payload:{ data}});
         expect(st).toEqual({default:{ data,pendingChange:[]}});
     });
+    it('remove data#CLICKVIEW', () => {
+        const data=[{event_id:1},{event_id:2}];
+        const st=main({default:{data} },{type:CLICKVIEW,id:2});
+        expect(st).toEqual({default:{ data:[{event_id:1}],pendingChange:[2]}});
+    });
 });
