@@ -13,7 +13,7 @@ app.get('/bundle.js',(req,res)=>{
     res.sendFile('bundle.js', { root: path.join(__dirname, '../build')});
 });
 
-app.post("/getEvents",(req, res)=>{
+app.post("/new-alarm-events",(req, res)=>{
     res.status(200).json({data:[{
         event_id: 12345,
         camera_id: 332923,
@@ -36,8 +36,8 @@ app.post("/getEvents",(req, res)=>{
 ]});
 
 });
-app.post("/updateEvent",(req, res)=>{
-    res.status(200).json({id:req.id});
+app.post("/event-viewed/:event_id",(req, res)=>{
+    res.status(200).json({id:req.params.event_id });
 
 });
 

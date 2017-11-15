@@ -17,14 +17,14 @@ const defaultReq={
 export const onView = () => ({
     [CALL_API]: Object.assign(defaultReq,{
       types: [VIEW, VIEW_SUCCESS,VIEW_FAIL] 
-      ,endpoint: ApiServer+'/getEvents',
+      ,endpoint: ApiServer+'/new-alarm-events',
     })
   });
 
 export const onUpdate = (id) => ({
     [CALL_API]: Object.assign(defaultReq,{
       types: [UPDATE, UPDATE_SUCCESS,UPDATE_FAIL] 
-      ,endpoint: ApiServer+'/updateEvent',
+      ,endpoint: ApiServer+'/event-viewed/'+id,
       body: JSON.stringify({id})
     })
   });

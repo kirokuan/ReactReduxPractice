@@ -25,4 +25,9 @@ describe('main reducer', () => {
         const st=main({default:{data} },{type:CLICKVIEW,id:2});
         expect(st).toEqual({default:{ data:[{event_id:1}],pendingChange:[2]}});
     });
+    it('remove data not in the set#CLICKVIEW', () => {
+        const data=[{event_id:1},{event_id:2}];
+        const st=main({default:{data} },{type:CLICKVIEW,id:3});
+        expect(st).toEqual({default:{ data:[{event_id:1},{event_id:2}],pendingChange:[3]}});
+    });
 });

@@ -3169,14 +3169,14 @@ var defaultReq = {
 var onView = exports.onView = function onView() {
   return _defineProperty({}, _reduxApiMiddleware.CALL_API, Object.assign(defaultReq, {
     types: [VIEW, VIEW_SUCCESS, VIEW_FAIL],
-    endpoint: ApiServer + '/getEvents'
+    endpoint: ApiServer + '/new-alarm-events'
   }));
 };
 
 var onUpdate = exports.onUpdate = function onUpdate(id) {
   return _defineProperty({}, _reduxApiMiddleware.CALL_API, Object.assign(defaultReq, {
     types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
-    endpoint: ApiServer + '/updateEvent',
+    endpoint: ApiServer + '/event-viewed/' + id,
     body: JSON.stringify({ id: id })
   }));
 };
@@ -16416,6 +16416,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.main = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -16424,13 +16425,12 @@ var _redux = __webpack_require__(35);
 var _creators = __webpack_require__(74);
 
 var INITIAL_STATE = {};
-var main = function main() {
+var main = exports.main = function main() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
     var action = arguments[1];
 
     switch (action.type) {
         case _creators.CLICKVIEW:
-            console.log(state);
             state.data = state.data.filter(function (x) {
                 return x.event_id != action.id;
             });
@@ -16438,12 +16438,13 @@ var main = function main() {
             if (!state.pendingChange) return _extends({}, state, { pendingChange: [action.id] });else {
                 state.pendingChange.push(action.id);
             }
-            console.log(state);
             return state;
         case _creators.UPDATE:
             console.log(action);
             return _extends({}, state);
-
+        case _creators.UPDATE_SUCCESS:
+            state.pendingChange = [];
+            return state;
         case _creators.VIEW_SUCCESS:
             return _extends({}, state, { data: action.payload.data });
         default:
