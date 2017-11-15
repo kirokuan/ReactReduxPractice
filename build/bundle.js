@@ -16424,6 +16424,8 @@ var _redux = __webpack_require__(35);
 
 var _creators = __webpack_require__(74);
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var INITIAL_STATE = {};
 var main = exports.main = function main() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : INITIAL_STATE;
@@ -16431,24 +16433,27 @@ var main = exports.main = function main() {
 
     switch (action.type) {
         case _creators.CLICKVIEW:
+            state.pendingChange = state.pendingChange ? state.pendingChange : [];
+            var pendingItem = state.data.filter(function (x) {
+                return x.event_id === action.id;
+            });
             state.data = state.data.filter(function (x) {
                 return x.event_id != action.id;
             });
-
-            if (!state.pendingChange) return _extends({}, state, { pendingChange: [action.id] });else {
-                state.pendingChange.push(action.id);
-            }
+            if (pendingItem.length > 0) state.pendingChange.push(pendingItem[0]);
             return state;
-        case _creators.UPDATE:
-            console.log(action);
+        case _creators.UPDATE_FAIL:
+            state.data = [].concat(_toConsumableArray(state.data), _toConsumableArray(state.pendingChange));
+            state.pendingChange = [];
             return _extends({}, state);
+
         case _creators.UPDATE_SUCCESS:
             state.pendingChange = [];
             return state;
         case _creators.VIEW_SUCCESS:
             return _extends({}, state, { data: action.payload.data });
         default:
-            return state;
+            return _extends({}, state);
     }
 };
 

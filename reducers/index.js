@@ -6,27 +6,27 @@ export const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
         case CLICKVIEW:
+            state.pendingChange=state.pendingChange?state.pendingChange:[];
+            const pendingItem=state.data.filter((x)=>{
+                return x.event_id===action.id;});
             state.data=state.data.filter((x)=>{
                     return x.event_id!=action.id;
                 });
-            
-            if(!state.pendingChange) 
-              return {...state,pendingChange:[action.id]}
-            else{
-                state.pendingChange.push(action.id);
-              
-            }
+            if(pendingItem.length>0)
+                state.pendingChange.push(pendingItem[0]);
             return state;
-        case UPDATE:
-            console.log(action);
+        case UPDATE_FAIL:
+            state.data=[...state.data,...state.pendingChange];
+            state.pendingChange=[];
             return {...state}
+        
         case UPDATE_SUCCESS:
              state.pendingChange=[];
-             return state;
+            return state;
         case VIEW_SUCCESS:
             return {...state,data:action.payload.data}
         default:
-            return state;
+            return {...state};
     }
 }
 
