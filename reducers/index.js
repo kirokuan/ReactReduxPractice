@@ -2,6 +2,7 @@ import { combineReducers} from 'redux';
 import { UPDATE,UPDATE_FAIL,UPDATE_SUCCESS,VIEW,VIEW_SUCCESS,VIEW_FAIL,CLICKVIEW} 
 from '../actions/creators'
 const INITIAL_STATE={};
+import socket from './socket.js'
 export const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
@@ -31,5 +32,6 @@ export const main=(state=INITIAL_STATE, action)=> {
 }
 
 export default combineReducers({
-  default : main
+  default : main,
+  socket:socket
 });
