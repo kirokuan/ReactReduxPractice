@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {onView,onUpdate} from '../actions/creators'
+import {onView,onUpdate,onViewClick} from '../actions/creators'
 import store from '../stores/createStore';
 import {Provider} from 'react-redux';
 function mapStateToProps(state) {
@@ -16,6 +16,7 @@ function mapDispatchToProps(dispatch) {
         dispatch(onView());
       },
       onUpdate:(id) => {
+        dispatch(onViewClick(id));
         dispatch(onUpdate(id));
       }
     }
@@ -23,14 +24,22 @@ function mapDispatchToProps(dispatch) {
 
 @connect(mapStateToProps,mapDispatchToProps)
 export class AppBase extends React.Component {
+    componentWillMount(){
+        this.setState({data:[]});
+    }
     componentDidMount(){
         this.props.onLoad();
     }
-    onUpdate(id){
-        this.props.onUpdate(id);
+    onPress(event_id){
+        this.props.onUpdate(event_id);
     }
     list(){
-        return this.state.data.map(d=>(<li>d.title</li>));
+        return (this.props.data?this.props.data:[])
+        .sort((x,y)=>{ return x.starting_timestamp-y.starting_timestamp})
+        .map(d=>(<li key={d.event_id}>
+                    <a href="#" onClick={()=>this.onPress(d.event_id)}>{d.prediction}</a>
+                    <br/>time : {d.starting_timestamp}
+                </li>));
     }
     render() {
         return (

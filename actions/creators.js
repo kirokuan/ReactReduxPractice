@@ -1,6 +1,6 @@
 import { CALL_API } from 'redux-api-middleware';
 export const ApiServer="http://127.0.0.1:3000";//config.get("ApiUrl");
-
+export const CLICKVIEW = 'VIEWCLICK'
 export const VIEW = 'VIEW'
 export const VIEW_SUCCESS = 'VIEW_SUCCESS'
 export const VIEW_FAIL = 'VIEW_FAIL'
@@ -27,4 +27,9 @@ export const onUpdate = (id) => ({
       ,endpoint: ApiServer+'/updateEvent',
       body: JSON.stringify({id})
     })
+  });
+
+  export const onViewClick = (id) => ({
+    type:CLICKVIEW
+    ,id:id
   });
