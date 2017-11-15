@@ -19769,7 +19769,7 @@ var main = exports.main = function main() {
 
     switch (action.type) {
         case 'event':
-            state.data = [].concat(_toConsumableArray(state), _toConsumableArray(action.data));
+            state.data = [].concat(_toConsumableArray(state.data), _toConsumableArray(action.data));
             return _extends({}, state);
         case _creators.CLICKVIEW:
             state.pendingChange = state.pendingChange ? state.pendingChange : [];

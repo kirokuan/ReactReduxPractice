@@ -2,12 +2,11 @@ import { combineReducers} from 'redux';
 import { UPDATE,UPDATE_FAIL,UPDATE_SUCCESS,VIEW,VIEW_SUCCESS,VIEW_FAIL,CLICKVIEW} 
 from '../actions/creators'
 const INITIAL_STATE={};
-import socket from './socket.js'
 export const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
         case 'event':
-            state.data=[...state,...action.data];
+            state.data=[...state.data,...action.data];
             return {...state};
         case CLICKVIEW:
             state.pendingChange=state.pendingChange?state.pendingChange:[];
@@ -36,5 +35,4 @@ export const main=(state=INITIAL_STATE, action)=> {
 
 export default combineReducers({
   default : main,
-//  socket:socket
 });
