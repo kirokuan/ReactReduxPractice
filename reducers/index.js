@@ -6,6 +6,9 @@ import socket from './socket.js'
 export const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
+        case 'event':
+            state.data=[...state,...action.data];
+            return {...state};
         case CLICKVIEW:
             state.pendingChange=state.pendingChange?state.pendingChange:[];
             const pendingItem=state.data.filter((x)=>{
@@ -33,5 +36,5 @@ export const main=(state=INITIAL_STATE, action)=> {
 
 export default combineReducers({
   default : main,
-  socket:socket
+//  socket:socket
 });

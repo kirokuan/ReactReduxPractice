@@ -8,20 +8,23 @@ var io = socket_io();
 io.attach(server);
 io.on('connection', function(socket){
   console.log("Socket connected: " + socket.id);
-  /*socket.on('action', (action) => {
-    if(action.type === 'server/hello'){
-      console.log('Got hello data!', action.data);
-      socket.emit('action', {type:'message', data:'good day!'});
-    }
-  });
-  serverEmitter.on('newFeed', function (data) {
-    // this message will be sent to all connected users
-    socket.emit(data);
-  });*/
+  
 });
+let id=10000;
+const prediction_cats=["cat","dog","forest","people","exam","building"]
+
+function data_generator(){
+    return {
+        event_id:id++,
+        starting_timestamp:new Date().getTime(),
+        prediction:prediction_cats[parseInt(Math.random()*prediction_cats.length)],
+        camera_id:Math.random*1000
+    };
+}
 
 function EmitMessage(){
-    io.sockets.emit('server/hello',{msg:'abc'});
-    setTimeout(EmitMessage,5000);
+    console.log("emit");
+    io.sockets.emit('action', {type:'event', data:[data_generator()]});
+    setTimeout(EmitMessage,Math.random()*5000);
 }
 EmitMessage();

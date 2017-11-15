@@ -19768,6 +19768,9 @@ var main = exports.main = function main() {
     var action = arguments[1];
 
     switch (action.type) {
+        case 'event':
+            state.data = [].concat(_toConsumableArray(state), _toConsumableArray(action.data));
+            return _extends({}, state);
         case _creators.CLICKVIEW:
             state.pendingChange = state.pendingChange ? state.pendingChange : [];
             var pendingItem = state.data.filter(function (x) {
@@ -19794,8 +19797,8 @@ var main = exports.main = function main() {
 };
 
 exports.default = (0, _redux.combineReducers)({
-    default: main,
-    socket: _socket2.default
+    default: main
+    //  socket:socket
 });
 
 /***/ }),
@@ -19809,14 +19812,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.default = function () {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { data: [] };
   var action = arguments[1];
 
   console.log(action);
   switch (action.type) {
-    case 'message':
-      return Object.assign({}, { message: action.data });
+    case 'event':
+      console.log(state.data);
+      state.data.push(action.data);
+      return _extends({}, state);
     default:
       return state;
   }
