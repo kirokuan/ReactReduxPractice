@@ -1,4 +1,5 @@
 import { combineReducers} from 'redux';
+const INITIAL_STATE={};
 const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
@@ -7,6 +8,6 @@ const main=(state=INITIAL_STATE, action)=> {
     }
 }
 
-export default reducers = combineReducers({
+export default combineReducers({
   default : main
 });

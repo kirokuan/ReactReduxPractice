@@ -1,3 +1,4 @@
+import { CALL_API } from 'redux-api-middleware';
 export const ApiServer="http://127.0.0.1:3000";//config.get("ApiUrl");
 
 export const VIEW = 'VIEW'
