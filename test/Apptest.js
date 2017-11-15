@@ -7,8 +7,8 @@ import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
 it('renders correctly', () => {
-  const tree = shallow(
+  const dom = shallow(
     <App />
   );
-  expect(tree).toMatchSnapshot();
+  expect(dom).toMatchSnapshot();
 });

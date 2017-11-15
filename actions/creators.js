@@ -23,7 +23,7 @@ export const onView = () => ({
 
 export const onUpdate = (id) => ({
     [CALL_API]: Object.assign(defaultReq,{
-      types: [Update, VIEW_SUCCESS,VIEW_FAIL] 
+      types: [UPDATE, UPDATE_SUCCESS,UPDATE_FAIL] 
       ,endpoint: ApiServer+'/updateEvent',
       body: JSON.stringify({id})
     })
