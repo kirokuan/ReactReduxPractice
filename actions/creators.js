@@ -9,6 +9,11 @@ export const UPDATE = 'UPDATE'
 export const UPDATE_SUCCESS = 'UPDATE_SUCCESS'
 export const UPDATE_FAIL = 'UPDATE_FAIL'
 
+
+export const ChangeCat = 'ChangeCat'
+export const ChangeCat_SUCCESS = 'ChangeCat_SUCCESS'
+export const ChangeCat_FAIL = 'ChangeCat_FAIL'
+
 const defaultReq={
     method: 'POST',
     headers: { 'Content-Type': 'application/json' }
@@ -29,7 +34,15 @@ export const onUpdate = (id) => ({
     })
   });
 
-  export const onViewClick = (id) => ({
+export const onChangeCat = (id) => ({
+    [CALL_API]: Object.assign(defaultReq,{
+      types: [ChangeCat, ChangeCat_SUCCESS,ChangeCat_FAIL] 
+      ,endpoint: ApiServer+'/event-update/'+id,
+      body: JSON.stringify({id})
+    })
+  });
+  
+export const onViewClick = (id) => ({
     type:CLICKVIEW
     ,id:id
   });

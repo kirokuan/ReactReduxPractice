@@ -1,10 +1,16 @@
 import { combineReducers} from 'redux';
-import { UPDATE,UPDATE_FAIL,UPDATE_SUCCESS,VIEW,VIEW_SUCCESS,VIEW_FAIL,CLICKVIEW} 
+import { UPDATE,UPDATE_FAIL,UPDATE_SUCCESS
+    ,VIEW,VIEW_SUCCESS,VIEW_FAIL,CLICKVIEW,
+    ChangeCat,ChangeCat_SUCCESS
+} 
 from '../actions/creators'
 const INITIAL_STATE={};
 export const main=(state=INITIAL_STATE, action)=> {
     switch(action.type) 
     {
+        case ChangeCat_SUCCESS:
+           state.data.filter((x)=>{ return x.event_id==action.payload.id})[0]=action.payload.cat;
+           return {...state};
         case 'event':
             state.data=[...state.data,...action.data];
             return {...state};

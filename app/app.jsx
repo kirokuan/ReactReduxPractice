@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {onView,onUpdate,onViewClick} from '../actions/creators'
+import {onView,onUpdate,onViewClick,onChangeCat} from '../actions/creators'
 import store from '../stores/createStore';
 import {Provider} from 'react-redux';
 function mapStateToProps(state) {
@@ -19,7 +19,8 @@ function mapDispatchToProps(dispatch) {
         dispatch(onViewClick(id));
         dispatch(onUpdate(id));
       },
-      onChangeCat:(id) => {
+      onChangeCat:(id,cat) => {
+        dispatch(onChangeCat(id,cat));
       }
     }
 }
@@ -40,8 +41,15 @@ export class AppBase extends React.Component {
 //        console.log(id);
         this.setState({Title:item.event_id,item:item});
     }
-    getTabs(type){
-        return cats.map(c=>(   <li className={type===c?"active":""} onClick={this.props.onChangeCat.bind(this,c)}>
+    onChangeCat(id,cat){
+        let item=this.state.item;
+        item.prediction=cat;
+        this.setState({item});
+        this.props.onChangeCat(id,cat);
+    }
+    getTabs(id,type){
+        let i=0;
+        return cats.map(c=>(   <li key={i++} className={type===c?"active":""} onClick={this.onChangeCat.bind(this,id,c)}>
             <a href="#">{c}</a></li>));
     }
     list(){
@@ -65,7 +73,7 @@ export class AppBase extends React.Component {
                     <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" className="close" data-dismiss="modal">&times;</button>
                             <h4 className="modal-title">{this.state.Title}</h4>
                         </div>
                         <div className="modal-body">
@@ -76,8 +84,8 @@ export class AppBase extends React.Component {
                         </div>
                         <div className="modal-footer">
                             <div className="container">
-                                <ul class="nav nav-pills nav-justified">
-                                    {this.getTabs(this.state.item.prediction)}
+                                <ul className="nav nav-pills">
+                                    {this.getTabs(this.state.item.event_id,this.state.item.prediction)}
                                 </ul>
                             </div>
                         </div>

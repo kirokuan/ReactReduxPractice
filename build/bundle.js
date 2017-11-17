@@ -4772,7 +4772,7 @@ function verifyPlainObject(value, displayName, methodName) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.onViewClick = exports.onUpdate = exports.onView = exports.UPDATE_FAIL = exports.UPDATE_SUCCESS = exports.UPDATE = exports.VIEW_FAIL = exports.VIEW_SUCCESS = exports.VIEW = exports.CLICKVIEW = exports.ApiServer = undefined;
+exports.onViewClick = exports.onChangeCat = exports.onUpdate = exports.onView = exports.ChangeCat_FAIL = exports.ChangeCat_SUCCESS = exports.ChangeCat = exports.UPDATE_FAIL = exports.UPDATE_SUCCESS = exports.UPDATE = exports.VIEW_FAIL = exports.VIEW_SUCCESS = exports.VIEW = exports.CLICKVIEW = exports.ApiServer = undefined;
 
 var _reduxApiMiddleware = __webpack_require__(83);
 
@@ -4787,6 +4787,10 @@ var VIEW_FAIL = exports.VIEW_FAIL = 'VIEW_FAIL';
 var UPDATE = exports.UPDATE = 'UPDATE';
 var UPDATE_SUCCESS = exports.UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 var UPDATE_FAIL = exports.UPDATE_FAIL = 'UPDATE_FAIL';
+
+var ChangeCat = exports.ChangeCat = 'ChangeCat';
+var ChangeCat_SUCCESS = exports.ChangeCat_SUCCESS = 'ChangeCat_SUCCESS';
+var ChangeCat_FAIL = exports.ChangeCat_FAIL = 'ChangeCat_FAIL';
 
 var defaultReq = {
   method: 'POST',
@@ -4804,6 +4808,14 @@ var onUpdate = exports.onUpdate = function onUpdate(id) {
   return _defineProperty({}, _reduxApiMiddleware.CALL_API, Object.assign(defaultReq, {
     types: [UPDATE, UPDATE_SUCCESS, UPDATE_FAIL],
     endpoint: ApiServer + '/event-viewed/' + id,
+    body: JSON.stringify({ id: id })
+  }));
+};
+
+var onChangeCat = exports.onChangeCat = function onChangeCat(id) {
+  return _defineProperty({}, _reduxApiMiddleware.CALL_API, Object.assign(defaultReq, {
+    types: [ChangeCat, ChangeCat_SUCCESS, ChangeCat_FAIL],
+    endpoint: ApiServer + '/event-update/' + id,
     body: JSON.stringify({ id: id })
   }));
 };
@@ -14384,7 +14396,9 @@ function mapDispatchToProps(dispatch) {
             dispatch((0, _creators.onViewClick)(id));
             dispatch((0, _creators.onUpdate)(id));
         },
-        onChangeCat: function onChangeCat(id) {}
+        onChangeCat: function onChangeCat(id, cat) {
+            dispatch((0, _creators.onChangeCat)(id, cat));
+        }
     };
 }
 var cats = ["cat", "dog", "forest", "people", "exam", "building"];
@@ -14420,14 +14434,23 @@ var AppBase = exports.AppBase = (_dec = (0, _reactRedux.connect)(mapStateToProps
             this.setState({ Title: item.event_id, item: item });
         }
     }, {
+        key: 'onChangeCat',
+        value: function onChangeCat(id, cat) {
+            var item = this.state.item;
+            item.prediction = cat;
+            this.setState({ item: item });
+            this.props.onChangeCat(id, cat);
+        }
+    }, {
         key: 'getTabs',
-        value: function getTabs(type) {
+        value: function getTabs(id, type) {
             var _this2 = this;
 
+            var i = 0;
             return cats.map(function (c) {
                 return _react2.default.createElement(
                     'li',
-                    { className: type === c ? "active" : "", onClick: _this2.props.onChangeCat.bind(_this2, c) },
+                    { key: i++, className: type === c ? "active" : "", onClick: _this2.onChangeCat.bind(_this2, id, c) },
                     _react2.default.createElement(
                         'a',
                         { href: '#' },
@@ -14483,7 +14506,7 @@ var AppBase = exports.AppBase = (_dec = (0, _reactRedux.connect)(mapStateToProps
                                 { className: 'modal-header' },
                                 _react2.default.createElement(
                                     'button',
-                                    { type: 'button', 'class': 'close', 'data-dismiss': 'modal' },
+                                    { type: 'button', className: 'close', 'data-dismiss': 'modal' },
                                     '\xD7'
                                 ),
                                 _react2.default.createElement(
@@ -14523,8 +14546,8 @@ var AppBase = exports.AppBase = (_dec = (0, _reactRedux.connect)(mapStateToProps
                                     { className: 'container' },
                                     _react2.default.createElement(
                                         'ul',
-                                        { 'class': 'nav nav-pills nav-justified' },
-                                        this.getTabs(this.state.item.prediction)
+                                        { className: 'nav nav-pills' },
+                                        this.getTabs(this.state.item.event_id, this.state.item.prediction)
                                     )
                                 )
                             )
@@ -19847,6 +19870,11 @@ var main = exports.main = function main() {
     var action = arguments[1];
 
     switch (action.type) {
+        case _creators.ChangeCat_SUCCESS:
+            state.data.filter(function (x) {
+                return x.event_id == action.payload.id;
+            })[0] = action.payload.cat;
+            return _extends({}, state);
         case 'event':
             state.data = [].concat(_toConsumableArray(state.data), _toConsumableArray(action.data));
             return _extends({}, state);

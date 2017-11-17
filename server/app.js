@@ -41,6 +41,11 @@ app.post("/event-viewed/:event_id",(req, res)=>{
 
 });
 
+app.post("/event-update/:event_id",(req, res)=>{
+    res.status(200).json({id:req.params.event_id ,cat:req.params.cat});
+
+});
+
 app.listen(3000, () => {
     
     console.log('  Press CTRL-C to stop.\n');
