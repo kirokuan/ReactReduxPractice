@@ -19461,7 +19461,9 @@ var _socket2 = _interopRequireDefault(_socket);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var socketUrl = 'http://localhost:6000';
+var port = __webpack_require__(250).wsPort;
+var socketUrl = 'http://localhost:' + port;
+console.log('connect to ' + socketUrl);
 var logger = (0, _reduxLogger.createLogger)();
 var socket = (0, _socket2.default)(socketUrl);
 var socketIoMiddleware = (0, _reduxSocket2.default)(socket, "server/");
@@ -23039,6 +23041,17 @@ Backoff.prototype.setMax = function (max) {
 
 Backoff.prototype.setJitter = function (jitter) {
   this.jitter = jitter;
+};
+
+/***/ }),
+/* 250 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+    wsPort: 443
 };
 
 /***/ })

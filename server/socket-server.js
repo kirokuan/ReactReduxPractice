@@ -1,11 +1,13 @@
 var http = require('http');
 var server = http.createServer();
 var socket_io = require('socket.io');
-server.listen(6000);
+const port=require('../config').wsPort;
+server.listen(port);
 var events = require('events');
 const serverEmitter = new events.EventEmitter();
 var io = socket_io();
 io.attach(server);
+console.log(port)
 io.on('connection', function(socket){
   console.log("Socket connected: " + socket.id);
   
