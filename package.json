@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
+    "ws":"node ./server/socket-server.js",
     "server": "npm run build && node ./server/app.js",
     "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base build"
   },
