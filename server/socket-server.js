@@ -18,7 +18,8 @@ function data_generator(){
         event_id:id++,
         starting_timestamp:new Date().getTime(),
         prediction:prediction_cats[parseInt(Math.random()*prediction_cats.length)],
-        camera_id:Math.random()*1000
+        camera_id:Math.random()*1000,
+        thumbnail: 'http://icons.iconarchive.com/icons/paomedia/small-n-flat/256/sign-check-icon.png'
     };
 }
 
